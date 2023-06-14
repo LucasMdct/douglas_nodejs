@@ -1,11 +1,14 @@
 {
-    "name": "Aula01",
-    "version": "1.0.0",
-    "description": "Aula 01 do Professor Douglas Junior",
-    "main": "index.js",
-    "scripts": {
-        "start:": "node index.js"
-    },
-    "author": "Lucas Medeiros",
-    "license": "ISC"
+  "name": "aula01",
+  "version": "1.0.0",
+  "description": "- Executando um console.log em nodejs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.30.0"
+  }
 }
