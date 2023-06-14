@@ -1,0 +1,11 @@
+{
+    "name": "Aula01",
+    "version": "1.0.0",
+    "description": "Aula 01 do Professor Douglas Junior",
+    "main": "index.js",
+    "scripts": {
+        "start:": "node index.js"
+    },
+    "author": "Lucas Medeiros",
+    "license": "ISC"
+}
