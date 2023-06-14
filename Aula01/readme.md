@@ -1,3 +1,5 @@
-# teste 
 
-testando o readme na pasta sera que funciona
+# Primeira Aula do Professor Douglas Junior  
+
+  - Executando um console.log em nodejs
+  
