@@ -10,6 +10,6 @@ const dataAtual = new Date();
 
 console.log(dataAtual);
 
-const dataFormatada = datefns.format(dataAtual, 'dd/MM/yyyy');
+const dataFormatada = datefns.format(dataAtual, 'dd/MMMM/yyyy HH:mm:ss');
 
 console.log(dataFormatada);
