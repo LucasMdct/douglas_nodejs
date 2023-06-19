@@ -1,4 +1,4 @@
-# Bootcamp Catalisa - DB1 2023
+# Bootcamp Catalisa - DB1 2023 com Professor Douglas
 
-Neste repositório você encontra os materiais utilizados nas aulas de Node JS e React JS.
+Neste repositório iremos ter as aulas de Node JS e React JS.
 
