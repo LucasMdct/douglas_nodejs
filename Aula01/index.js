@@ -4,12 +4,13 @@ console.log("Hello Node JS");
 console.log("Minha Primeira Mensagem");
 /////////////////////////////////////////
 
-const datefns = require('date-fns');
+// const datefns = require('date-fns');
 
-const dataAtual = new Date();
+// const dataAtual = new Date();
 
-console.log(dataAtual);
+// console.log(dataAtual);
 
-const dataFormatada = datefns.format(dataAtual, 'dd/MMMM/yyyy HH:mm:ss');
+// const dataFormatada = datefns.format(dataAtual, 'dd/MMMM/yyyy HH:mm:ss');
 
-console.log(dataFormatada);
+// console.log(dataFormatada);
+
