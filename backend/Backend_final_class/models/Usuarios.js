@@ -46,6 +46,7 @@ const Usuarios = sequelize.define(
 
     // configura para que o campo senha seja ocultado por padrão
     // para evitar que seja retornado em consultas
+    //   procurar informações pois é uma função avançada scope do sequelize
     defaultScope: {
       attributes: {
         exclude: ['senha'],

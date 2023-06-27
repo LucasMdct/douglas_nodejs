@@ -52,6 +52,11 @@ const Tarefas = sequelize.define(
  */
 Tarefas.belongsTo(Usuarios, {
   // TODO: implementar aqui
+  as: 'usuarios',
+  targetKey: 'id',
+  foreignKey: 'usuarios_id', // nome da chave estrangeira na tabela "Tarefas"
+  onDelete: 'NO ACTION', // ação a ser executada quando um usuário for excluído
+  onUpdate: 'NO ACTION',
 });
 
 module.exports = Tarefas;
