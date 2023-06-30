@@ -31,7 +31,7 @@ router.post(
     }
 
     try {
-      const { nome, email, senha } = req.body;
+      const { nome, email, senha } = req.body; 
 
       // eslint-disable-next-line no-unused-vars
       const resultado = await Usuarios.create({

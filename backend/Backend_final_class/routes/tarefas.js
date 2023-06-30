@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 
 const { middlewareAutenticacao } = require('../middlewares/autenticacao');
@@ -6,6 +7,7 @@ const { checarResultadoValidacao } = require('../validators');
 const {
   validadorCadastroTarefa, validadorAtualizacaoTarefa,
 } = require('../validators/tarefas');
+const Usuarios = require('../models/Usuarios');
 
 const router = express.Router();
 
@@ -15,6 +17,7 @@ const router = express.Router();
 router.post(
   '/',
   middlewareAutenticacao,
+  // se encontrar um token vencido vai travar aaqui
   validadorCadastroTarefa,
   async (req, res) => {
     if (checarResultadoValidacao(req, res)) {
@@ -25,6 +28,14 @@ router.post(
       const { usuarioLogado, body } = req;
 
       const { titulo, concluida } = body;
+
+      const tarefa = await Tarefas.create({
+        titulo,
+        concluida,
+        usuario_id: usuarioLogado.id,
+      });
+
+      res.status(201).json(tarefa);
 
       // TODO: implementar aqui
     } catch (error) {
@@ -44,7 +55,12 @@ router.get(
     try {
       const { usuarioLogado } = req;
 
-      // TODO: implementar aqui
+      const tarefas = await Tarefas.findAll({
+        where: {
+          usuario_id: usuarioLogado.id,
+        },
+      });
+      res.status(200).json(tarefas);
     } catch (error) {
       console.warn(error);
       res.status(500).send();
@@ -64,6 +80,24 @@ router.get(
 
       const { tarefaId } = params;
 
+      const tarefa = await Tarefas.findOne({
+        where: {
+          id: tarefaId,
+          usuario_id: usuarioLogado.id,
+        },
+        include: [{
+          model: Usuarios,
+          as: 'Usuario',
+        }],
+      });
+
+      if (!tarefa) {
+        res.status(404).send('Tarefa não encontrada');
+        return;
+      }
+
+      res.status(200).json(tarefa);
+
       // TODO: implementar aqui
     } catch (error) {
       console.warn(error);
@@ -71,7 +105,6 @@ router.get(
     }
   },
 );
-
 /**
  * Atualiza a tarefa alterando o valor da coluna "concluida" para true ou false.
  *
@@ -85,25 +118,25 @@ router.get(
  * @returns {object|null}
  */
 const atualizaSituacaoTarefa = async (usuarioId, tarefaId, concluida) => {
-  const result = await Tarefas.findOne({
+  const tarefa = await Tarefas.findOne({
     where: {
       id: tarefaId,
       usuario_id: usuarioId,
     },
   });
 
-  if (!result) {
+  if (!tarefa) {
     return null;
   }
 
   /**
-   * Atualiza o valor da coluna "concluida"
+  * Atualiza o valor da coluna "concluida"
    * Docs: https://sequelize.org/docs/v6/core-concepts/model-instances/#updating-an-instance
    */
-  result.concluida = concluida;
-  await result.save();
+  tarefa.concluida = concluida;
+  await tarefa.save();
 
-  return result;
+  return tarefa;
 };
 
 /**
@@ -117,6 +150,14 @@ router.put(
       const { usuarioLogado, params } = req;
 
       const { tarefaId } = params;
+
+      const tarefa = await atualizaSituacaoTarefa(usuarioLogado.id, tarefaId, true);
+
+      if(!tarefa){
+        res.status(404).send('tarefa não encontrada');
+      }
+
+      res.status(200).json(tarefa);
 
       // TODO: implementar aqui
     } catch (error) {
@@ -137,6 +178,15 @@ router.put(
       const { usuarioLogado, params } = req;
 
       const { tarefaId } = params;
+
+      const tarefa = await atualizaSituacaoTarefa(usuarioLogado.id, tarefaId, false);
+
+      if (!tarefa) {
+        res.status(404).send('TAREFA NÃO ENCONTRADA');
+        return;
+      }
+
+      res.status(200).json(tarefa);
 
       // TODO: implementar aqui
     } catch (error) {
@@ -159,7 +209,7 @@ router.patch(
     }
 
     try {
-      const { usuarioLogado, params, body } = req;
+      const { params, body } = req;
 
       const { tarefaId } = params;
       const { titulo, concluida } = body;
