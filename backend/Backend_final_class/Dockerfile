@@ -18,9 +18,9 @@ RUN apk add --no-cache --virtual .build-deps \
 RUN apk add --no-cache mariadb-connector-c-dev \
     && npm install mysql2 \
     && apk del .build-deps
-
+#MySQL é implantado e disponível como srv-captain--db1-db:3306 para outros aplicativos. Por exemplo, com NodeJS, você faz 'var con = mysql.createConnection({ host: 'srv-captain--db1-db', user: 'root', password: '*********' }) ;'
 # Define as variáveis de ambiente para a conexão com o MySQL
-ENV MYSQL_HOST=168.138.140.171
+ENV MYSQL_HOST=srv-captain--db1-db
 ENV MYSQL_USER=root
 ENV MYSQL_PASSWORD=12345678
 ENV MYSQL_DATABASE=exemplo
