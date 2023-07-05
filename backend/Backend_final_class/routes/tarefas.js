@@ -153,7 +153,7 @@ router.put(
 
       const tarefa = await atualizaSituacaoTarefa(usuarioLogado.id, tarefaId, true);
 
-      if(!tarefa){
+      if (!tarefa) {
         res.status(404).send('tarefa não encontrada');
       }
 
@@ -209,10 +209,81 @@ router.patch(
     }
 
     try {
-      const { params, body } = req;
+      const { usuarioLogado, params, body } = req;
 
       const { tarefaId } = params;
       const { titulo, concluida } = body;
+
+      // const tarefa = await Tarefas.findByPk(tarefaId);
+
+      await Tarefas.update(
+        {
+          titulo,
+          concluida,
+        },
+        {
+          where: {
+            id: tarefaId,
+            usuario_id: usuarioLogado.id,
+          },
+        },
+      );
+
+      const tarefa = await Tarefas.findOne({
+        where: {
+          id: tarefaId,
+          usuario_id: usuarioLogado.id,
+        },
+      });
+
+      if (!tarefa) {
+        res.status(404).send('Tarefa não encontrada');
+        return;
+      }
+
+      // const registrosAtualizados = result[0];
+
+      // if (!registrosAtualizados) {
+      //   res.status(404).send('TAREFA NÃO ENCONTRADA');
+      //   return;
+      // }
+
+      res.status(200).json(tarefa);
+
+      // TODO: implementar aqui
+    } catch (error) {
+      console.warn(error);
+      res.status(500).send();
+    }
+  },
+);
+
+/**
+** ROTA DE EXCLUSÃO DE TAREFAS
+** DELETE /taredas/1
+ */
+router.delete(
+  '/:tarefaId',
+  middlewareAutenticacao,
+  async (req, res) => {
+    try {
+      const { usuarioLogado, params } = req;
+      const { tarefaId } = params;
+
+      const result = await Tarefas.destroy({
+        where: {
+          id: tarefaId,
+          usuario_id: usuarioLogado.id,
+        },
+
+      });
+
+      if (!result) {
+        res.status(404).send('Tarefa não encontrada');
+        return;
+      }
+
+      res.status(204).json(result);
 
       // TODO: implementar aqui
     } catch (error) {
