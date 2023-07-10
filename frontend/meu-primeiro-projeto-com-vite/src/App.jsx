@@ -1,10 +1,14 @@
-import Relogio from "./components/relogio"
+
+import Tarefas from "./pages/tarefas";
+
+
+
 
 function App() {
   return (
-      <div>
-        <Relogio dataHora={new Date()}/>
-      </div>
+    //<Exemplos/>
+    <Tarefas/>
+    
   )
 }
 
